@@ -43,7 +43,7 @@ nav h3 {
     client.onConnectionLost = onConnectionLost;
     client.onMessageDelivered = onMessageDelivered;
     // Connect the client
-    client.connect({ onSuccess:onConnect });
+    client.connect({ useSSL:true, onSuccess:onConnect });
     // Called when the client connects
     function onConnect() {
         // Once a connection has been made, make a subscription and send a message.
