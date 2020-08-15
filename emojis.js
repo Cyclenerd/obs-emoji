@@ -24,8 +24,9 @@ const defaultChannel = '3feWGFFm';
 const channelName = channel ? channel : defaultChannel;
 
 // MQTT over WebSockets
-const mqttServer = "test.mosquitto.org";
-const mqttPort   = 8081;
+// Public brokers: https://github.com/mqtt/mqtt.github.io/wiki/public_brokers
+const mqttServer = "mqtt.eclipse.org";
+const mqttPort   = 443; // WebSockets+SSL
 // MQTT topic
 const mqttTopic = 'emojireaction/' + channelName + '/reactions';
 const mqttClientId = "emojireaction" + channelName + Math.floor(Math.random() * 10000) + 10;  //clientId
