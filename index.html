@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emoji Reaction</title>
+<link rel="shortcut icon" href="favicon.ico?v1">
+<script src="lib/paho-mqtt.min.js?1.1.0"></script>
+<script src="emojis.js?v1"></script>
+<style>
+body {
+    font-family: sans-serif;
+    user-select: none;
+    color: #f8f8f2;
+    background-color: #282a36;
+    margin: 0;
+    padding: 0;
+}
+nav {
+    background-color: #6272a4;
+    line-height: 2em;
+}
+nav h3 {
+    font-size: 1em;
+    margin: 0px 1em 0px 1em;
+}
+#emojis {
+    cursor: default;
+    line-height: 6em;
+}
+#emojis b {
+    font-size: 3em;
+    cursor: pointer;
+    margin: 0.5em;
+}
+</style>
+</head>
+<body>
+<nav><h3>Status: <span id="status">Connecting...</span></h3></nav>
+<p id="emojis"></p>
+<script>
+    // Set callback handlers
+    client.onConnectionLost = onConnectionLost;
+    client.onMessageDelivered = onMessageDelivered;
+    // Connect the client
+    client.connect({ onSuccess:onConnect });
+    // Called when the client connects
+    function onConnect() {
+        // Once a connection has been made, make a subscription and send a message.
+        console.log("MQTT connected");
+        document.getElementById("status").textContent = "🟢 Connected";
+        client.subscribe(mqttTopic);
+        // Add emojis
+        Object.keys(emojiName).forEach(key => {
+            //console.log(key, emojiName[key]);
+            var reaction = document.createElement("b"); // Create a <b> node
+            reaction.textContent = emojiName[key];
+            reaction.onclick = function(){ publishMessage(key); };
+            document.getElementById("emojis").appendChild(reaction);
+        });
+    }
+    function onMessageDelivered(message) {
+        var text = message.payloadString;
+        var emoji = emojiName[text] ? emojiName[text] : '🦧';
+        console.log("Delivered: " + text);
+        var d = new Date();
+        document.getElementById("status").textContent = emoji + " Delivered (" + d.toLocaleTimeString() + ")";
+    }
+    // Called when the client loses its connection
+    function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+            console.log("Connection lost: " + responseObject.errorMessage);
+            document.getElementById("emojis").style.display = 'none';
+            document.getElementById("status").textContent = "🟥 Connection lost. Please reload this site.";
+        }
+    }
+    // Creates a new Messaging.Message Object and sends it to the MQTT Broker
+    // http://www.eclipse.org/paho/files/jsdoc/Paho.MQTT.Message.html
+    function publishMessage(text) {
+        console.log("Publish message: " + text);
+        message = new Paho.Message(text);
+        message.destinationName = mqttTopic;
+        client.send(message);
+        window.navigator.vibrate(200); // 200ms
+    }
+</script>
+</body>
+</html>

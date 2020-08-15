@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emoji Reaction for OBS</title>
+<link rel="shortcut icon" href="favicon.ico?v1">
+<script src="lib/paho-mqtt.min.js?1.1.0"></script>
+<script src="emojis.js?v1"></script>
+<style>
+body {
+    background-color: magenta;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    opacity:0.8;
+}
+b {
+    animation: reaction 3s ease-in 5s forwards;
+    animation-fill-mode: forwards;
+}
+@keyframes reaction {
+    to { opacity:0; }
+}
+</style>
+</style>
+</head>
+<body>
+<script>
+    var fullWidth = window.innerWidth -30;
+    var fullHeight = window.innerHeight -30;
+    // Set callback handlers
+    client.onConnectionLost = onConnectionLost;
+    client.onMessageArrived = onMessageArrived;
+    // Connect the client
+    client.connect({ onSuccess:onConnect });
+    // Called when the client connects
+    function onConnect() {
+        // Once a connection has been made, make a subscription and send a message.
+        console.log("MQTT connected");
+        client.subscribe(mqttTopic);
+    }
+    function onMessageArrived(message) {
+        var text = message.payloadString;
+        var emoji = emojiName[text] ? emojiName[text] : '🦧';
+        console.log(emoji + " : " + text);
+        var reaction = document.createElement("b"); // Create a <b> node
+        reaction.textContent = emoji;
+        reaction.style.position = "absolute";
+        reaction.style.fontSize = Math.floor((Math.random() * 60) + 20) + "px";
+        reaction.style.left = Math.round(Math.random() * fullWidth) + "px";
+        reaction.style.top = Math.round(Math.random() * fullHeight) + "px";
+        document.body.appendChild(reaction); // Append <b> to <body>
+    }
+    // Called when the client loses its connection
+    function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+            console.log("Connection lost: " + responseObject.errorMessage);
+            window.document.title  = "🟥 Connection lost";
+        }
+    }
+</script>
+</body>
+</html>
