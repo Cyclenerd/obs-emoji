@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Emoji Reaction</title>
+<title>Emoji Live Reaction</title>
 <link rel="shortcut icon" href="favicon.ico?v1">
 <script src="lib/paho-mqtt.min.js?1.1.0"></script>
 <script src="emojis.js?v1"></script>
@@ -34,10 +34,17 @@ button {
     cursor: pointer;
     margin: 0.5em;
 }
+#reload {
+    font-size: 1.5em;
+    margin: 15px 1em 0px 1em;
+    color: #ff5555;
+    display: none;
+}
 </style>
 </head>
 <body>
 <nav><h3>Status: <span id="status">Connecting...</span></h3></nav>
+<p id="reload">Please reload this site !</p>
 <p id="emojis"></p>
 <script>
     // Set callback handlers
@@ -72,7 +79,8 @@ button {
         if (responseObject.errorCode !== 0) {
             console.log("Connection lost: " + responseObject.errorMessage);
             document.getElementById("emojis").style.display = 'none';
-            document.getElementById("status").textContent = "🟥 Connection lost. Please reload this site.";
+            document.getElementById("status").textContent = "🟥 Connection lost!";
+            document.getElementById("reload").style.display = "block";
         }
     }
     // Creates a new Messaging.Message Object and sends it to the MQTT Broker

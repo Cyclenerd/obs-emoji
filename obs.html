@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Emoji Reaction for OBS</title>
+<title>Emoji Live Reaction for OBS</title>
 <link rel="shortcut icon" href="favicon.ico?v1">
 <script src="lib/paho-mqtt.min.js?1.1.0"></script>
 <script src="emojis.js?v1"></script>
 <style>
 body {
+    font-family: sans-serif;
     background-color: magenta;
     height: 100%;
     width: 100%;
@@ -24,10 +25,18 @@ b {
 @keyframes reaction {
     to { opacity:0; }
 }
+#reload {
+    color: red;
+    text-shadow: 0 0 5px black;
+    font-size: 2em;
+    margin: 1em;
+    display: none;
+}
 </style>
 </style>
 </head>
 <body>
+<span id="reload">🤬 Emoji Live Reaction: Connection lost</span>
 <script>
     var fullWidth = window.innerWidth -30;
     var fullHeight = window.innerHeight -30;
@@ -60,6 +69,8 @@ b {
         if (responseObject.errorCode !== 0) {
             console.log("Connection lost: " + responseObject.errorMessage);
             window.document.title  = "🟥 Connection lost";
+            document.getElementById("reload").style.display = "block";
+
         }
     }
 </script>
