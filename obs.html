@@ -35,7 +35,7 @@ b {
     client.onConnectionLost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
     // Connect the client
-    client.connect({ onSuccess:onConnect });
+    client.connect({ useSSL:true, onSuccess:onConnect });
     // Called when the client connects
     function onConnect() {
         // Once a connection has been made, make a subscription and send a message.
