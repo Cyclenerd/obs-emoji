@@ -41,6 +41,7 @@ b {
         // Once a connection has been made, make a subscription and send a message.
         console.log("MQTT connected");
         client.subscribe(mqttTopic);
+        window.document.title  = "🟢 Connected";
     }
     function onMessageArrived(message) {
         var text = message.payloadString;
