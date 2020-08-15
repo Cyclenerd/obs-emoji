@@ -24,8 +24,8 @@ const defaultChannel = '3feWGFFm';
 const channelName = channel ? channel : defaultChannel;
 
 // MQTT over WebSockets
-const mqttServer = "broker.mqttdashboard.com";
-const mqttPort   = 8000;
+const mqttServer = "test.mosquitto.org";
+const mqttPort   = 8081;
 // MQTT topic
 const mqttTopic = 'emojireaction/' + channelName + '/reactions';
 const mqttClientId = "emojireaction" + channelName + Math.floor(Math.random() * 10000) + 10;  //clientId
