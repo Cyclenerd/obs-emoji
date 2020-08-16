@@ -39,6 +39,14 @@ Example:
 wizard: '🧙',
 ```
 
+## Technology
+
+The transfer of the reactions is done via MQTT.
+MQTT is an open lightweight, publish-subscribe network protocol that transports messages between devices.
+A public MQTT server (broker) is used for this project.
+Many thanks to [EMQ Technologies](https://github.com/emqx/emqx) for hosting `broker.emqx.io`.
+You can change the MQTT Server in the file `emoji.js`.
+
 ## Enhancement
 
 If you have cool ideas, e.g. how to create better animations, please feel free to fork this project.
