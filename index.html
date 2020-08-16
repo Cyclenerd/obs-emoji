@@ -90,7 +90,6 @@ button {
         message = new Paho.Message(text);
         message.destinationName = mqttTopic;
         client.send(message);
-        window.navigator.vibrate(200); // 200ms
     }
 </script>
 </body>
