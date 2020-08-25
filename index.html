@@ -46,10 +46,28 @@ button:active {
     color: #ff5555;
     display: none;
 }
+#js {
+    background-color: #ff5555;
+    line-height: 4em;
+}
+#js strong {
+    margin: 10px 1em 10px 1em;
+    color: #282a36;
+    font-size: 1.5em;
+}
 </style>
 </head>
 <body>
-<nav><h3>Status: <span id="status">Connecting...</span></h3></nav>
+<nav>
+    <h3>
+        Status: <span id="status">Connecting...</span>
+    </h3>
+</nav>
+<noscript>
+    <div id="js">
+        <strong>Please enable JavaScript!</strong>
+    </div>
+</noscript>
 <p id="reload">Please reload this site !</p>
 <p id="emojis"></p>
 <script>
